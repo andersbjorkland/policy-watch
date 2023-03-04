@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  cms:
+    build:
+      context: ./cms/.caddy
+      dockerfile: Dockerfile
+    volumes:
+      - ./cms:/app
+      - ./cms/.caddy/certs:/etc/app/certs
+      - ./cms/.caddy/Caddyfile:/etc/Caddyfile
+    ports:
+      - "80:80"
+      - "443:443"
+
+  mariadb:
+    image: mariadb:latest
+    env_file: .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - data:/var/lib/mysql
+
+volumes:
+  data:
