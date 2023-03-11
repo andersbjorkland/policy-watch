@@ -4,13 +4,15 @@ services:
     build:
       context: ./cms/.caddy
       dockerfile: Dockerfile
+      args:
+        - ENABLE_XDEBUG=false
     volumes:
       - ./cms:/app
       - ./cms/.caddy/certs:/etc/app/certs
       - ./cms/.caddy/Caddyfile:/etc/Caddyfile
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
+      - "8000:443"
 
   mariadb:
     image: mariadb:latest
