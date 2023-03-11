@@ -9,7 +9,7 @@ use SilverStripe\ORM\FieldType\DBText;
 
 class Body extends \SilverStripe\ORM\DataObject
 {
-    private static string $table_name = 'parliament_body';
+    private static string $table_name = 'ParliamentBody';
 
     private static array $db = [
         'code' => DBText::class,

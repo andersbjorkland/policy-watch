@@ -12,7 +12,7 @@ use SilverStripe\ORM\FieldType\DBVarchar;
 
 class Mission extends DataObject
 {
-    private static string $table_name = 'parliament_mission';
+    private static string $table_name = 'ParliamentMission';
 
     private static array $db = [
         'code' => DBText::class,
