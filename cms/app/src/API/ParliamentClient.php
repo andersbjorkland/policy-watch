@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\API;
 
 use App\API\DataKey\PersonKey;
+use App\API\DiffAnalyzer\PersonAnalyzer;
 use App\Model\Parliament\Person;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\FieldType\DBDatetime;
 
@@ -29,6 +29,8 @@ class ParliamentClient extends Client
      */
     public function getPersonList(): array
     {
+        $personDiffAnalyzer = new PersonAnalyzer();
+
         $list = [];
         $rawList = $this->getRawPersonList();
         foreach ($rawList as $rawPerson) {
@@ -48,7 +50,7 @@ class ParliamentClient extends Client
                     'Status' => $rawPerson[PersonKey::STATUS]
                 ]);
             } else {
-                $diffs = $this->getDiffKeys($person, $rawPerson);
+                $diffs = $personDiffAnalyzer->getDiffKeys($person, $rawPerson);
                 $hasDiff = strlen($diffs) > 0;
                 if ($hasDiff) {
                     $person->HasDiff = $hasDiff;
@@ -69,44 +71,7 @@ class ParliamentClient extends Client
         return $list;
     }
 
-    public function getDiffKeys(Person $person, array $rawPerson): string
-    {
-        $differences = [];
-        if ($rawPerson[PersonKey::BIRTH_YEAR] != $person->YearOfBirth) {
-            $differences[] = 'YearOfBirth';
-        }
 
-        if ($rawPerson[PersonKey::GENDER] != $person->Gender) {
-            $differences[] = 'Gender';
-        }
-
-        if ($rawPerson[PersonKey::SURNAME] != $person->Surname) {
-            $differences[] = 'Surname';
-        }
-
-        if ($rawPerson[PersonKey::FIRST_NAME] != $person->FirstName) {
-            $differences[] = 'FirstName';
-        }
-
-        if ($rawPerson[PersonKey::SORT_NAME] != $person->SortedName) {
-            $differences[] = 'SortedName';
-        }
-
-        if ($rawPerson[PersonKey::CONSTITUENCY] != $person->Constituency) {
-            $differences[] = 'Constituency';
-        }
-
-        if ($rawPerson[PersonKey::STATUS] != $person->Status) {
-            $differences[] = 'Status';
-        }
-
-        if (empty($differences)) {
-            return '';
-        }
-
-        // Return a string of all differences detected
-        return implode("\n", $differences);
-    }
 
     public function getRawPersonList(): array
     {

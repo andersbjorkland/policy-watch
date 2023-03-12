@@ -11,6 +11,18 @@ use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\ORM\FieldType\DBInt;
 use SilverStripe\ORM\FieldType\DBVarchar;
 
+/**
+ * @property mixed|null $YearOfBirth
+ * @property mixed|null $Gender
+ * @property mixed|null $Surname
+ * @property mixed|null $FirstName
+ * @property mixed|null $SortedName
+ * @property mixed|null $Constituency
+ * @property mixed|null $Status
+ * @property bool|mixed|null $HasDiff
+ * @property mixed|DBDatetime|null $DiffDated
+ * @property mixed|string|null $DiffExplanation
+ */
 class Person extends DataObject
 {
     private static string $table_name = 'ParliamentPerson';
