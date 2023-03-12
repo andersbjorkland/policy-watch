@@ -2,8 +2,8 @@ FROM dunglas/frankenphp
 
 
 RUN apt-get update && \
-    apt-get install -y unzip && \
-    install-php-extensions mysqli intl
+    apt-get install -y unzip  libpng-dev && \
+    install-php-extensions mysqli intl gd
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

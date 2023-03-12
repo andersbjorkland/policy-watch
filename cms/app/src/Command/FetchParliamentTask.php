@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\API\ParliamentClient;
-use App\Model\Parliament\Person;
-use GuzzleHttp\Client;
 use SilverStripe\Dev\BuildTask;
 
 class FetchParliamentTask extends BuildTask
