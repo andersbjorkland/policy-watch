@@ -9,7 +9,7 @@ class PersonKey
     public const PERSONS = 'person';
     public const SOURCE_ID = 'sourceid';
     public const BIRTH_YEAR = 'fodd_ar';
-    public const GENDER = 'gender';
+    public const GENDER = 'kon';
     public const SURNAME = 'efternamn';
     public const FIRST_NAME = 'tilltalsnamn';
     public const SORT_NAME = 'sorteringsnamn';

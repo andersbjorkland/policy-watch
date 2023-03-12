@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Model\Person;
+use App\Model\Parliament\Person;
 use SilverStripe\Admin\ModelAdmin;
 
 class PersonAdmin extends ModelAdmin

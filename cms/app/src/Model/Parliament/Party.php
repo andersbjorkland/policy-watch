@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Model\Parliament;
 
-use App\Model\Person;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBVarchar;
 
