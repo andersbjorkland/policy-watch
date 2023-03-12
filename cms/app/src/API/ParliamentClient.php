@@ -6,6 +6,7 @@ namespace App\API;
 
 use App\API\DataKey\PersonKey;
 use App\API\DiffAnalyzer\PersonAnalyzer;
+use App\Model\Parliament\Party;
 use App\Model\Parliament\Person;
 use GuzzleHttp\Client;
 use SilverStripe\Core\Config\Config;
@@ -29,12 +30,17 @@ class ParliamentClient extends Client
      */
     public function getPersonList(): array
     {
-        $personDiffAnalyzer = new PersonAnalyzer();
-
         $list = [];
+        $partyMap = $this->getPartyMap();
+
+        $personDiffAnalyzer = new PersonAnalyzer();
+        $downloader = new Downloader();
+
         $rawList = $this->getRawPersonList();
         foreach ($rawList as $rawPerson) {
             $sourceID = $rawPerson[PersonKey::SOURCE_ID];
+            $partySign = strtolower($rawPerson[PersonKey::PARTY]);
+            $party = $partyMap[$partySign] ?? null;
 
             /** @var ?Person $person */
             $person = Person::get_one(filter: ['SourceID' => $sourceID]);
@@ -49,6 +55,7 @@ class ParliamentClient extends Client
                     'Constituency' => $rawPerson[PersonKey::CONSTITUENCY],
                     'Status' => $rawPerson[PersonKey::STATUS]
                 ]);
+
             } else {
                 $diffs = $personDiffAnalyzer->getDiffKeys($person, $rawPerson);
                 $hasDiff = strlen($diffs) > 0;
@@ -63,6 +70,16 @@ class ParliamentClient extends Client
                     $person->DiffDated = DBDatetime::now();
                     $person->DiffExplanation = $diffs;
                 }
+            }
+
+            if ($party !== null && $person->PartyID == 0) {
+                $person->Party = $party;
+            }
+
+            if ($person->ProfilePictureID == 0) {
+                $pictureUrl = $rawPerson[PersonKey::PHOTO_URL];
+                $image = $downloader->downloadImage($pictureUrl);
+                $person->ProfilePicture = $image;
             }
 
             $list[] = $person;
@@ -92,5 +109,21 @@ class ParliamentClient extends Client
         $data = json_decode($content, true);
 
         return $data[PersonKey::PERSON_LIST][PersonKey::PERSONS] ?? [];
+    }
+
+    /**
+     * @return array<string, Party>
+     */
+    public function getPartyMap(): array
+    {
+        $map = [];
+        $parties = Party::get();
+        /** @var Party $party */
+        foreach ($parties as $party) {
+            $sign = strtolower($party->Sign);
+            $map[$sign] = $party;
+        }
+
+        return $map;
     }
 }

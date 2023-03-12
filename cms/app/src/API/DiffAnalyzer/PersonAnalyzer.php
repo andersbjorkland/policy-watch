@@ -40,6 +40,10 @@ class PersonAnalyzer
             $differences[] = 'Status';
         }
 
+        if ($rawPerson[PersonKey::PARTY] != $person->Party?->Sign) {
+            $differences[] = 'Party';
+        }
+
         if (empty($differences)) {
             return '';
         }

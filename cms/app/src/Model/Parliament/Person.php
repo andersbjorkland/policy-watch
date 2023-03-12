@@ -13,15 +13,19 @@ use SilverStripe\ORM\FieldType\DBVarchar;
 
 /**
  * @property mixed|null $YearOfBirth
- * @property mixed|null $Gender
- * @property mixed|null $Surname
- * @property mixed|null $FirstName
- * @property mixed|null $SortedName
- * @property mixed|null $Constituency
- * @property mixed|null $Status
+ * @property string|null $Gender
+ * @property string|null $Surname
+ * @property string|null $FirstName
+ * @property string|null $SortedName
+ * @property string|null $Constituency
+ * @property string|null $Status
  * @property bool|mixed|null $HasDiff
  * @property mixed|DBDatetime|null $DiffDated
- * @property mixed|string|null $DiffExplanation
+ * @property string|null $DiffExplanation
+ * @property Party|null $Party
+ * @property int|null $PartyID
+ * @property mixed|null $ProfilePictureID
+ * @property mixed|\SilverStripe\Assets\Image|null $ProfilePicture
  */
 class Person extends DataObject
 {
@@ -43,6 +47,12 @@ class Person extends DataObject
 
     private static array $has_one = [
         'Party' => Party::class,
-        'Profile' => Image::class
+        'ProfilePicture' => Image::class
+    ];
+
+    private static array $summary_fields = [
+        'FirstName',
+        'Surname',
+        'Party.Name' => 'Party'
     ];
 }

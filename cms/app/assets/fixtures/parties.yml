@@ -1,25 +1,25 @@
 App\Model\Parliament\Party:
   s:
-    sign: 's'
-    name: 'Socialdemokraterna'
+    Sign: 's'
+    Name: 'Socialdemokraterna'
   m:
-    sign: 'm'
-    name: 'Moderata samlingspartier'
+    Sign: 'm'
+    Name: 'Moderata samlingspartier'
   l:
-    sign: 'l'
-    name: 'Liberalerna'
+    Sign: 'l'
+    Name: 'Liberalerna'
   kd:
-    sign: 'kd'
-    name: 'Kristdemokraterna'
+    Sign: 'kd'
+    Name: 'Kristdemokraterna'
   v:
-    sign: 'v'
-    name: 'Vänsterpartiet'
+    Sign: 'v'
+    Name: 'Vänsterpartiet'
   sd:
-    sign: 'sd'
-    name: 'Sverigedemokraterna'
+    Sign: 'sd'
+    Name: 'Sverigedemokraterna'
   c:
-    sign: 'c'
-    name: 'Centerpartiet'
+    Sign: 'c'
+    Name: 'Centerpartiet'
   mp:
-    sign: 'mp'
-    name: 'Miljöpartiet de gröna'
+    Sign: 'mp'
+    Name: 'Miljöpartiet de gröna'

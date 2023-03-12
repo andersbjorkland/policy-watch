@@ -7,7 +7,7 @@ services:
       args:
         - ENABLE_XDEBUG=false
     volumes:
-      - ./cms:/app
+      - ./cms:/app:delegated
       - ./cms/.caddy/certs:/etc/app/certs
       - ./cms/.caddy/Caddyfile:/etc/Caddyfile
     ports:

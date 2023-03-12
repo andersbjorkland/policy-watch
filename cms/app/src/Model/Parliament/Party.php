@@ -12,11 +12,11 @@ class Party extends DataObject
     private static string $table_name = 'ParliamentParty';
 
     private static array $db = [
-        'sign' => DBVarchar::class . '(4)',
-        'name' => DBVarchar::class
+        'Sign' => DBVarchar::class . '(4)',
+        'Name' => DBVarchar::class
     ];
 
     private static array $has_many = [
-        'members' => Person::class
+        'Members' => Person::class
     ];
 }
