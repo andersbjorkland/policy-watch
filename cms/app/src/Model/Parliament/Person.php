@@ -53,6 +53,7 @@ class Person extends DataObject
     ];
 
     private static array $summary_fields = [
+        'ProfilePicture.CMSThumbnail' => 'Profile',
         'FirstName',
         'Surname',
         'Party.Name' => 'Party'
