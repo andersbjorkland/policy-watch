@@ -15,3 +15,5 @@ RUN if [ "${ENABLE_XDEBUG}" = "true" ] ; then \
         echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini ; \
         echo "xdebug.idekey=caddy" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini ; \
 fi
+
+RUN echo "memory_limit=-1" >> /usr/local/etc/php/conf.d/docker-php.ini

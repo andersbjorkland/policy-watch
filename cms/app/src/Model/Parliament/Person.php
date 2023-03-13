@@ -26,6 +26,7 @@ use SilverStripe\ORM\FieldType\DBVarchar;
  * @property int|null $PartyID
  * @property mixed|null $ProfilePictureID
  * @property mixed|\SilverStripe\Assets\Image|null $ProfilePicture
+ * @property mixed|null $ProfilePictureURL
  */
 class Person extends DataObject
 {
@@ -42,7 +43,8 @@ class Person extends DataObject
         'Status' => DBVarchar::class,
         'HasDiff' => DBBoolean::class,
         'DiffDated' => DBDatetime::class,
-        'DiffExplanation' => DBVarchar::class
+        'DiffExplanation' => DBVarchar::class,
+        'ProfilePictureURL' => DBVarchar::class
     ];
 
     private static array $has_one = [

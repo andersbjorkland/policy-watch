@@ -53,7 +53,8 @@ class ParliamentClient extends Client
                     'FirstName' => $rawPerson[PersonKey::FIRST_NAME],
                     'SortedName' => $rawPerson[PersonKey::SORT_NAME],
                     'Constituency' => $rawPerson[PersonKey::CONSTITUENCY],
-                    'Status' => $rawPerson[PersonKey::STATUS]
+                    'Status' => $rawPerson[PersonKey::STATUS],
+                    'ProfilePictureURL' => $rawPerson[PersonKey::PHOTO_URL]
                 ]);
 
             } else {
@@ -63,6 +64,7 @@ class ParliamentClient extends Client
                     $person->HasDiff = $hasDiff;
                     $person->DiffDated = DBDatetime::now();
                     $person->DiffExplanation = $diffs;
+                    $person->ProfilePictureURL = $rawPerson[PersonKey::PHOTO_URL];
                 }
 
                 if ($person->HasDiff && !$hasDiff) {
@@ -76,11 +78,11 @@ class ParliamentClient extends Client
                 $person->Party = $party;
             }
 
-            if ($person->ProfilePictureID == 0) {
-                $pictureUrl = $rawPerson[PersonKey::PHOTO_URL];
-                $image = $downloader->downloadImage($pictureUrl);
-                $person->ProfilePicture = $image;
-            }
+//            if ($person->ProfilePictureID == 0) {
+//                $pictureUrl = $rawPerson[PersonKey::PHOTO_URL];
+//                $image = $downloader->downloadImage($pictureUrl);
+//                $person->ProfilePicture = $image;
+//            }
 
             $list[] = $person;
         }
