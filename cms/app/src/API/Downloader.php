@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image;
 use SilverStripe\Control\Director;
+use SilverStripe\ORM\ValidationException;
 
 class Downloader
 {
@@ -33,29 +34,37 @@ class Downloader
         return $file;
     }
 
+    /**
+     * @throws \Throwable
+     * @throws ValidationException
+     */
     public function downloadImageBatch($people): bool
     {
         $promises = [];
         $persons = [];
         $client = new Client();
 
-        $assetsPath  = Director::publicFolder() . '/assets/';
-        $parliamentFolder = Folder::find_or_make('Parliament', $assetsPath);
+        $assetsPath  = 'Parliament';
+        $parliamentFolder = Folder::find_or_make($assetsPath);
 
         /** @var Person $person */
         foreach ($people as $person) {
-            $promises[$person->ID] = $client->getAsync($person->ProfilePictureURL);
-            $persons[$person->ID] = $person;
+            if ($person->ProfilePictureID !== null) {
+                continue;
+            }
+
+            $promises[$person->SourceID] = $client->getAsync($person->ProfilePictureURL);
+            $persons[$person->SourceID] = $person;
         }
 
         echo 'Requests: ' . count($promises) . PHP_EOL;
 
         $results = \GuzzleHttp\Promise\Utils::unwrap($promises);
-        foreach ($results as $personId => $response) {
-            echo 'Storing for ' . $personId . PHP_EOL;
+        foreach ($results as $sourceId => $response) {
+            echo 'Storing for ' . $sourceId . PHP_EOL;
             $imageContents = $response->getBody()->getContents();
-            $filename = "person-$personId.jpg";
-            $person = $persons[$personId];
+            $filename = $assetsPath . "/$sourceId.jpg";
+            $person = $persons[$sourceId];
             $file = new Image();
             $file->setFromString($imageContents, $filename);
             $file->ParentID = $parliamentFolder->ID;

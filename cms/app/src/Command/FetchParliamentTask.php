@@ -7,6 +7,7 @@ namespace App\Command;
 use App\API\Downloader;
 use App\API\ParliamentClient;
 use SilverStripe\Dev\BuildTask;
+use SilverStripe\ORM\ValidationException;
 
 class FetchParliamentTask extends BuildTask
 {
@@ -25,7 +26,15 @@ class FetchParliamentTask extends BuildTask
 
         $downloader = new Downloader();
         $start_time = microtime(true);
-        $downloader->downloadImageBatch($persons);
+
+        try {
+            $downloader->downloadImageBatch($persons);
+        } catch (ValidationException $e) {
+            echo $e->getMessage();
+        } catch (\Throwable $e) {
+            $e->getMessage();
+        }
+
         $elapsed_time = microtime(true) - $start_time;
         echo "Elapsed time: " . $elapsed_time . " seconds" . PHP_EOL;
 
